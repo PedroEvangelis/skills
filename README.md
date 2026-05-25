@@ -5,7 +5,7 @@ Available for the community to use and contribute.
 
 | Skill | Description |
 |-------|-------------|
-| [software-analyst](skills/software-analyst/SKILL.md) | End-to-end software analysis — from raw business problem to complete technical specification with diagrams, models, and behavioral analysis. |
+| [spec-driven-analyst](skills/spec-driven-analyst/SKILL.md) | Progressive specification and living documentation — organized by feature, auto-generated behaviors, greenfield/brownfield/quick modes. |
 
 ## Installation
 
@@ -16,7 +16,7 @@ Use `npx skills` CLI to install:
 npx skills add https://github.com/PedroEvangelis/skills
 
 # Or install a specific skill
-npx skills add https://github.com/PedroEvangelis/skills --skill software-analyst
+npx skills add https://github.com/PedroEvangelis/skills --skill spec-driven-analyst
 ```
 
 ## License
