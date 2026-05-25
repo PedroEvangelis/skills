@@ -1,3 +1,26 @@
+---
+name: spec-driven-analyst
+description: >
+  Progressive specification and living documentation for continuous projects.
+  Discovers, documents, and maintains system knowledge on demand — organized by
+  feature, not artifact type. Operates in three modes: Greenfield (new project),
+  Brownfield (new feature), and Quick (bug fix under 3 files). Auto-generates
+  behaviors.md with every implementation to capture implicit behaviors, edge cases,
+  and side effects. Cross-references all documents so the agent navigates by
+  reference, not full loads. Auto-sizes depth by complexity — simple features skip
+  design and tasks, complex ones generate what is needed. Stack-agnostic. Focuses on
+  what is needed, when it is needed — nothing is generated for archive.
+license: MIT
+metadata:
+  version: "1.0.0"
+  domain: workflow
+  triggers: start a project, plan a feature, analyze requirements, document a system, model a domain, progressive documentation, living documentation, specification, feature specification, brownfield, greenfield, quick mode, behaviors, implementation tracking, cross-referencing docs, continuous project, domain glossary, architecture decisions, ADR, system analysis, software analysis, requirements elicitation, use cases, user stories, auto-generate documentation, feature-driven docs, spec-driven development, project initialization, codebase documentation
+  role: expert
+  scope: analysis
+  output-format: document
+  related-skills: writing-plans, test-driven-development, brainstorming, the-fool
+---
+
 # Spec-Driven Analyst
 
 ## Role Definition
