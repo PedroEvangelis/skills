@@ -2,18 +2,19 @@
 
 ## Purpose
 
-Inicializar a documentação de um projeto novo. Cria a estrutura `.specs/project/`
-com os documentos globais mínimos e prepara o terreno para a primeira feature.
+Inicializar a documentação de um projeto novo. Diferente da abordagem anterior (que criava 5 documentos rasos), o greenfield agora ativa o **DISCOVER mode** para uma jornada de descoberta do domínio antes de criar a primeira feature.
 
 ## What You Produce
 
-| Documento | Conteúdo |
-|---|---|
-| `.specs/project/VISION.md` | Propósito, stakeholders, métricas de sucesso (5-15 linhas) |
-| `.specs/project/GLOSSARY.md` | Termos iniciais do domínio |
-| `.specs/project/ARCHITECTURE.md` | Esqueleto vazio, pronto para ADRs |
-| `.specs/project/CONVENTIONS.md` | Vazio, será preenchido com padrões descobertos |
-| `.specs/project/STATE.md` | Estado inicial da sessão |
+```
+.specs/project/
+├── VISION.md                    ← Problema, atores, métricas (via CP0)
+├── GLOSSARY.md                  ← Termos + relacionamentos (via CP1)
+├── BIG_PICTURE.md               ← Entidades, feature map inicial (via CP1)
+├── ARCHITECTURE.md              ← Esqueleto, pronto para ADRs
+├── CONVENTIONS.md               ← Vazio, preenchido durante implementação
+└── STATE.md                     ← Estado inicial da sessão
+```
 
 ## Input
 
@@ -23,87 +24,96 @@ O usuário quer criar um projeto novo. Pode ou não ter uma descrição do prop�
 
 ### Step 1 — Verificar se já existe `.specs/`
 
-Se `.specs/` já existe no projeto alvo, mude para o modo Brownfield.
-O usuário pode querer adicionar uma feature, não iniciar do zero.
+Se `.specs/` já existe no projeto alvo, mude para o modo Brownfield (ver `references/brownfield-feature.md`).
 
-**Validation checkpoint:** `.specs/` não existe. Se existir, aborta greenfield.
+**Validation checkpoint:** `.specs/` não existe.
 
-### Step 2 — Entender o Propósito
+### Step 2 — Ativar DISCOVER Mode
 
-Faça **1 pergunta por vez**, no máximo 3 perguntas no total:
+O greenfield agora delega para o **DISCOVER mode** (ver `references/discover-mode.md`), que guia uma conversa socrática de descoberta.
 
-1. "Qual o propósito principal deste projeto? Em uma frase."
-2. "Quem são os usuários/atores principais?"
-3. "Qual a métrica de sucesso? (opcional — pode ser 'não definida ainda')"
+O agente inicia com CP0:
 
-Se o usuário já forneceu essas informações na mensagem inicial, não pergunte de novo.
+> "Vamos entender o problema primeiro. O que acontece hoje sem esse software?"
 
-**Validation checkpoint:** Você consegue resumir o projeto em 1 frase que o usuário
-concorda. Se não consegue, continue perguntando.
+Siga o workflow completo de DISCOVER mode para CP0 (Problem Discovery) e CP1 (Domain Discovery).
 
-### Step 3 — Criar `.specs/project/VISION.md`
+**Validation checkpoint:** CP0 e CP1 concluídos com gates satisfeitos.
 
-Use este template:
+### Step 3 — Criar VISION.md
+
+Baseado na conversa de CP0, produza:
 
 ```markdown
 # Product Vision — [Nome do Projeto]
 
-## Propósito
-[1-2 frases]
+## Problem Statement
+[O que estamos resolvendo? 1-2 frases]
 
 ## Atores
-- [Ator 1]: [descrição]
+- [Ator 1]: [descrição — quem é, o que precisa]
 - [Ator 2]: [descrição]
 
-## Métricas de Sucesso
+## Success Metrics
 - [Métrica 1]: [alvo]
 - [Métrica 2]: [alvo]
 
-## Fora de Escopo (Inicial)
+## Out of Scope (Initial)
 - [O que NÃO será construído agora]
 ```
 
-Mínimo viável: 5 linhas. Máximo: 15 linhas. Não escreva um documento de visão de
-páginas — isso será descoberto organicamente conforme as features forem construídas.
+O VISION.md deve ter o tamanho que precisar para cobrir o gate de completude. Não há limite de linhas. O gate verifica: problema declarado, atores identificados, métricas definidas, fora de escopo definido.
 
-### Step 4 — Criar `.specs/project/GLOSSARY.md`
+### Step 4 — Criar GLOSSARY.md
 
-Extraia do propósito e atores os termos-chave do domínio:
+Baseado na conversa de CP1, produza:
 
 ```markdown
 # Glossary
 
-## [Termo]
-[Definição concisa em 1-2 frases]
+## [Termo 1]
+[Definição concisa]
+
+## [Termo 2]
+[Definição concisa]
 ```
 
-Comece com 3-5 termos. Novos termos serão adicionados conforme features forem
-criadas.
+O glossário começa com os termos discutidos em CP1. Novos termos serão adicionados conforme features forem criadas.
 
-**Validation checkpoint:** Todo termo usado no VISION.md está definido no GLOSSARY.md.
-Se um termo do VISION.md não está no GLOSSARY.md, a definição está faltando.
+### Step 5 — Criar BIG_PICTURE.md
 
-### Step 5 — Criar `.specs/project/ARCHITECTURE.md`
+```markdown
+# Big Picture — [Nome do Projeto]
+
+## Entities
+- [Entidade 1]: descrição
+- [Entidade 2]: descrição
+
+## Feature Map
+Ainda sem features. A primeira feature será mapeada aqui.
+
+## Open Questions
+- [Perguntas que ficaram em aberto durante a conversa]
+```
+
+### Step 6 — Criar Esqueletos
 
 ```markdown
 # Architecture
 
 ## ADRs
-_Nenhuma decisão arquitetural ainda. Será preenchido conforme decisões forem tomadas._
+_Nenhuma decisão arquitetural ainda. Será preenchido durante implementação._
 ```
-
-Apenas o esqueleto. ADRs são adicionados quando decisões reais são tomadas durante
-a implementação de features.
-
-### Step 6 — Criar `.specs/project/CONVENTIONS.md`
 
 ```markdown
 # Conventions
 
-_Nenhum padrão definido ainda. Será preenchido conforme padrões forem descobertos._
-```
+_Nenhum padrão definido ainda. Será preenchido durante implementação._
 
-### Step 7 — Criar `.specs/project/STATE.md`
+**Default:**
+- Diagramas: Mermaid (compatível com GitHub, GitLab, Obsidian, VS Code)
+
+```
 
 ```markdown
 # Session State — [Data]
@@ -119,61 +129,80 @@ _Nenhum padrão definido ainda. Será preenchido conforme padrões forem descobe
 
 ## Deferred Ideas
 - [nenhuma]
-
-## Preferências
-- Modelo rápido preferido para: [a definir]
 ```
 
-### Step 8 — Reportar Conclusão
+### Step 7 — Reportar Conclusão e Planejar Primeira Feature
 
 Informe ao usuário:
 
 - Estrutura `.specs/project/` criada
 - Quantos termos no glossário
-- Pronto para criar a primeira feature (guia: `references/brownfield-feature.md`)
+- BIG_PICTURE.md disponível
+
+Pergunte:
+
+> "A estrutura inicial está pronta. Qual feature vamos construir primeiro?"
+
+A primeira feature pode usar DISCOVER mode (recomendado) ou BUILD mode, dependendo da clareza do pedido.
 
 ## MUST DO
 
-- Manter VISION.md enxuto (5-15 linhas)
-- GLOSSARY.md começa pequeno e cresce organicamente
-- ARCHITECTURE.md só recebe ADRs de decisões reais
-- STATE.md é atualizado ao final de cada sessão
+- Conduzir CP0 e CP1 como conversa socrática — uma pergunta por vez
+- Verificar gates de completude antes de criar os documentos
+- Criar BIG_PICTURE.md como índice navegável
+- Manter ARCHITECTURE.md e CONVENTIONS.md como esqueletos — serão preenchidos organicamente
 
 ## MUST NOT DO
 
+- Pular CP0 e CP1 — "já sabemos o que fazer" é o maior risco de greenfield
 - Criar documentos de análise completos antes da primeira feature
 - Documentar suposições de arquitetura como se fossem decisões
-- Escrever VISION.md com mais de 15 linhas (se precisar, algo está errado)
-- Adicionar termos ao GLOSSARY.md que não são usados em nenhuma feature
+- Limitar VISION.md por número de linhas — o gate de completude é o que importa
 
 ## Good vs Bad Examples
 
-**Bom VISION.md (10 linhas):**
-```markdown
-# Product Vision — Integrador de Fretes
+**Bom Greenfield:**
 
-## Propósito
-Integrar múltiplas transportadoras em uma API unificada para cálculo de frete.
+```
+Usuário: "Quero um sistema para gerenciar veículos e publicar em portais."
 
-## Atores
-- Loja: consulta frete para seus clientes
-- Admin: gerencia transportadoras e regras de negócio
+Agente (CP0): "O que acontece hoje sem esse sistema?"
+Usuário: "Usamos planilhas. É um caos. Perdemos prazos."
+Agente: "Quem sente essa dor?"
+Usuário: "O comercial e o administrativo."
 
-## Métricas de Sucesso
-- 99% de disponibilidade da API
-- Resposta em <500ms para 95% das consultas
+(CP0 gate satisfeito — problema claro)
+
+Agente (CP1): "Quais são as 'coisas' principais que o sistema gerencia?"
+Usuário: "Veículos, portais, listagens."
+Agente: "Como um veículo se relaciona com uma listagem?"
+Usuário: "Um veículo pode estar em vários portais."
+
+(CP1 gate satisfeito — entidades mapeadas)
+
+→ VISION.md, GLOSSARY.md, BIG_PICTURE.md criados
+→ Pronto para primeira feature em DISCOVER ou BUILD
 ```
 
-**Mau VISION.md (páginas):**
-Documento de 3 páginas com análise de mercado, SWOT, personas detalhadas,
-roadmap de 12 meses. Isso muda antes de ser usado.
+**Mau Greenfield:**
+
+```
+Usuário: "Quero um sistema para gerenciar veículos."
+
+Agente: "Vou criar a estrutura." (pula CP0 e CP1)
+Agente: "VISION.md pronto (5 linhas). GLOSSARY.md com 3 termos. Qual a primeira feature?"
+Usuário: "Cadastro de veículos."
+Agente: "Vamos implementar." (nunca entendeu o domínio — vai gerar retrabalho)
+```
 
 ## Completion Criteria
 
-- [ ] `.specs/project/VISION.md` existe com propósito, atores e métricas
-- [ ] `.specs/project/GLOSSARY.md` existe com 3-5 termos iniciais
+- [ ] CP0 concluído: problema claro, atores identificados, métricas definidas
+- [ ] CP1 concluído: entidades core mapeadas, termos definidos no glossário
+- [ ] `.specs/project/VISION.md` existe (gate de completude satisfeito)
+- [ ] `.specs/project/GLOSSARY.md` existe com termos da conversa
+- [ ] `.specs/project/BIG_PICTURE.md` existe com entidades e feature map inicial
 - [ ] `.specs/project/ARCHITECTURE.md` existe (esqueleto)
 - [ ] `.specs/project/CONVENTIONS.md` existe (esqueleto)
 - [ ] `.specs/project/STATE.md` existe
-- [ ] Estado atualizado em STATE.md
 - [ ] Usuário confirmou que pode prosseguir para primeira feature

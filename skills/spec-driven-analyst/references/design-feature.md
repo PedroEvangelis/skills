@@ -15,6 +15,7 @@ para features que exigem decisões arquiteturais ou têm múltiplos módulos.
 - `spec.md` da feature
 - Carregar `.specs/project/CONVENTIONS.md` (padrões existentes)
 - Carregar `.specs/project/ARCHITECTURE.md` (decisões existentes)
+- Carregar `.specs/project/BIG_PICTURE.md` (visão sistêmica)
 
 ## Workflow
 
@@ -169,8 +170,10 @@ Vamos usar Correios.
 ## Completion Criteria
 
 - [ ] design.md existe APENAS se a feature realmente precisar
+- [ ] design.md tem frontmatter com concerns da feature
 - [ ] Toda decisão tem opções consideradas e justificativa
-- [ ] Diagramas (se existirem) são legíveis e relevantes
+- [ ] Diagramas usam Mermaid (formato default, ver [assets/uml-notation-guide.md])
 - [ ] Contratos de API (se existirem) têm exemplos
-- [ ] Cross-references para CONVENTIONS.md e ARCHITECTURE.md
+- [ ] Cross-references para CONVENTIONS.md, ARCHITECTURE.md e BIG_PICTURE.md
+- [ ] Seções referenciadas por 3+ arquivos — considerar extração (ver [extraction-rules.md])
 - [ ] Usuário revisou e aprovou o design

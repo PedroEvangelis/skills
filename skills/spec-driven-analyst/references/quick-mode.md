@@ -1,9 +1,9 @@
-# Quick Mode
+# FIX Mode
 
 ## Purpose
 
 Lidar com tarefas rápidas (bug fix, ajuste ≤3 arquivos) sem gerar documentação
-formal. O quick mode é o "express lane" — pula especificação, design e tasks.
+formal. O FIX mode é o "express lane" — pula especificação, design e tasks.
 Apenas implementa e atualiza o mínimo necessário.
 
 ## What You Produce
@@ -20,7 +20,7 @@ Cenário sem `.specs/` (projeto sem documentação):
 ## Input
 
 - Descrição do problema ou ajuste
-- Se `.specs/` existe: STATE.md + spec.md + behaviors.md da feature afetada
+- Se `.specs/` existe: STATE.md + BIG_PICTURE.md + spec.md + behaviors.md da feature afetada
 
 ## Workflow
 
@@ -31,21 +31,21 @@ Cenário sem `.specs/` (projeto sem documentação):
 | SIM | Bug fix em ≤3 arquivos |
 | SIM | Ajuste de configuração |
 | SIM | Refatoração sem mudança de comportamento |
-| NÃO | Feature nova → Brownfield |
-| NÃO | Mudança que toca >3 arquivos → Brownfield |
-| NÃO | Decisão arquitetural → Brownfield + Design |
+| NÃO | Feature nova → BUILD (ou DISCOVER) |
+| NÃO | Mudança que toca >3 arquivos → BUILD |
+| NÃO | Decisão arquitetural → BUILD + Design |
 
 **Validation checkpoint:** Realmente são ≤3 arquivos? Se a resposta for "sim,
 mas..." então não é quick mode.
 
 ### Step 2 — Se `.specs/` Existe
 
-1. Carregue APENAS `STATE.md`
-2. Identifique a feature afetada
+1. Carregue APENAS `STATE.md` e `BIG_PICTURE.md`
+2. Identifique a feature afetada (use BIG_PICTURE.md para ver impacto em outras features)
 3. Carregue `behaviors.md` da feature (para não quebrar comportamentos existentes)
 4. Implemente a correção
 5. Atualize `behaviors.md` com o que foi descoberto/corrigido
-6. Atualize `STATE.md`
+6. Atualize `STATE.md` e `BIG_PICTURE.md`
 
 ### Step 3 — Se `.specs/` Não Existe
 
@@ -85,17 +85,18 @@ Registre no STATE.md:
 
 ## MUST DO
 
-- Confirmar que a tarefa realmente se qualifica como quick mode (≤3 arquivos)
+- Confirmar que a tarefa realmente se qualifica como FIX mode (≤3 arquivos)
+- Carregar BIG_PICTURE.md para verificar impacto em outras features
 - Carregar behaviors.md da feature afetada para não quebrar comportamentos
 - Atualizar behaviors.md se descobrir algo novo
-- Atualizar STATE.md
+- Atualizar STATE.md e BIG_PICTURE.md
 
 ## MUST NOT DO
 
-- Usar quick mode para features que exigem spec.md
+- Usar FIX mode para features que exigem spec.md
 - Ignorar behaviors.md existente ("só um bug fix, não preciso verificar")
-- Deixar STATE.md desatualizado
-- Criar spec.md, design.md ou tasks.md em quick mode
+- Deixar STATE.md ou BIG_PICTURE.md desatualizados
+- Criar spec.md, design.md ou tasks.md em FIX mode
 
 ## Good vs Bad Examples
 
@@ -113,16 +114,17 @@ Problema: "O cálculo de frete está retornando prazo negativo para CEPs do nort
 6. Atualiza STATE.md
 ```
 
-**Mau quick mode:**
+**Mau FIX mode:**
 
 ```
 Problema: "O cálculo de frete está retornando prazo negativo para CEPs do norte."
 
 1. Pula STATE.md (não vê o estado atual)
-2. Pula behaviors.md (não vê comportamentos existentes)
-3. Corrige "na sorte" — pode quebrar algo
-4. Não documenta a correção
-5. STATE.md desatualizado
+2. Pula BIG_PICTURE.md (não vê se outras features dependem desse cálculo)
+3. Pula behaviors.md (não vê comportamentos existentes)
+4. Corrige "na sorte" — pode quebrar algo
+5. Não documenta a correção
+6. STATE.md e BIG_PICTURE.md desatualizados
 ```
 
 ## Completion Criteria
@@ -130,4 +132,5 @@ Problema: "O cálculo de frete está retornando prazo negativo para CEPs do nort
 - [ ] Correção implementada (≤3 arquivos)
 - [ ] behaviors.md atualizado (se feature afetada existe)
 - [ ] STATE.md atualizado
+- [ ] BIG_PICTURE.md atualizado
 - [ ] Nenhum artifact formal criado (spec.md, design.md, tasks.md)

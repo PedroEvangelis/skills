@@ -1,3 +1,9 @@
+---
+type: behaviors
+feature: <feature-name>
+concerns: []
+---
+
 # Behaviors — [Feature Name]
 
 > Comportamentos implementados que extrapolam o contrato explícito da spec.

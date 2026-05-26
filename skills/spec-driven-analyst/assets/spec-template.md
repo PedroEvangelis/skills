@@ -1,3 +1,9 @@
+---
+type: spec
+feature: <feature-name>
+concerns: [auth, performance, lgpd, cache]
+---
+
 # Spec — [Feature Name]
 
 ## Description
@@ -33,6 +39,30 @@ As a [ator], I want to [ação] so that [benefício].
 - **Input:** [o que entra]
 - **Output:** [o que sai]
 - **Priority:** Must | Should | Could
+
+## Non-Functional Requirements
+
+### RNF-01: [Título]
+- **Description:** [o que o sistema deve garantir]
+- **Metric:** [valor mensurável — ex: resposta <500ms para P95]
+- **Priority:** Must | Should | Could
+
+### RNF-02: [Título]
+- **Description:** [o que o sistema deve garantir]
+- **Metric:** [valor mensurável, ou justificativa se não aplicável]
+- **Priority:** Must | Should | Could
+
+## Business Rules
+
+### RN-01: [Título]
+- **Description:** [regra de negócio]
+- **Related RF:** RF-XX
+- **Rationale:** [por que essa regra existe]
+
+### RN-02: [Título]
+- **Description:** [regra de negócio]
+- **Related RF:** RF-XX
+- **Rationale:** [por que essa regra existe]
 
 ## Success Criteria
 

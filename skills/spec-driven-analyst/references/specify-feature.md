@@ -2,9 +2,9 @@
 
 ## Purpose
 
-Escrever o `spec.md` de uma feature — o documento que define O QUE a feature faz,
-sem entrar em COMO será implementado. A spec é o contrato entre o analista e o
-implementador.
+Escrever o `spec.md` de uma feature — o documento que define **O QUE** a feature faz, com requisitos funcionais, não-funcionais, regras de negócio e critérios de aceitação.
+
+A spec é o contrato entre análise e implementação. Em DISCOVER mode, ela emerge da conversa socrática (CP2). Em BUILD mode, ela é escrita diretamente a partir da descrição do usuário.
 
 ## What You Produce
 
@@ -12,7 +12,7 @@ implementador.
 
 ## Input
 
-- Estrutura da feature já criada (`features/<feature-name>/`)
+- Estrutura da feature já criada (passo anterior do brownfield ou discover-mode)
 - Descrição da feature (do usuário + contexto carregado)
 - Template: `assets/spec-template.md`
 
@@ -22,7 +22,27 @@ implementador.
 
 Leia `assets/spec-template.md` como base.
 
-### Step 2 — Extrair a Essência da Feature
+### Step 2 — Identificar Concerns
+
+Com base na descrição, identifique os concerns que esta feature toca. Concerns são dimensões transversais do sistema:
+
+- **auth**: autenticação, autorização, RBAC
+- **performance**: rate limiting, cache, otimizações
+- **lgpd**: dados pessoais, criptografia, retention
+- **cache**: Redis, CDN, caching layer
+- **compliance**: regulatório, auditoria, logs
+- **observabilidade**: métricas, tracing, alertas
+- **filas**: processamento assíncrono, job queues
+- **notificações**: email, push, webhook
+- **upload**: processamento de arquivos, storage
+
+Nem toda feature tem concerns — features puramente técnicas (migração, refatoração) podem ter lista vazia.
+
+Se houver dúvida, pergunte: "Essa feature toca [concern]?" Uma pergunta por vez.
+
+**Validation checkpoint:** concerns identificados antes de escrever a spec. O frontmatter será preenchido com esta lista.
+
+### Step 3 — Extrair a Essência da Feature
 
 Com base no que o usuário pediu, responda internamente:
 
@@ -31,28 +51,19 @@ Com base no que o usuário pediu, responda internamente:
 3. "Qual o fluxo principal? (3-5 passos)"
 4. "O que pode dar errado? (pelo menos 2 cenários)"
 
-**Validation checkpoint:** Você consegue explicar a feature em 30 segundos para
-alguém que não participou da conversa. Se não consegue, refine.
+**Validation checkpoint:** Você consegue explicar a feature em 30 segundos para alguém que não participou da conversa.
 
-### Step 3 — Identificar [NEEDS CLARIFICATION]
+### Step 4 — Identificar Pontos Ambíguos
 
-Máximo de **3 markers** por spec. Use apenas para questões que:
+Identifique aspectos que precisam de decisão do usuário. Limite a **3 pontos no máximo** por spec. Use apenas para questões que:
 
-- Impactam significativamente o escopo ou experiência do usuário
-- Têm múltiplas interpretações razoáveis com implicações diferentes
-- Não têm um default razoável obvious
+- Impactam significativamente a experiência do usuário
+- Têm múltiplas interpretações razoáveis
+- Não têm um default óbvio
 
-Exemplo de algo que NÃO precisa de clarification:
-> "Qual banco de dados usar?" — Se o projeto já usa PostgreSQL, não pergunte.
+**Validation checkpoint:** Máximo 3 pontos ambíguos. Se houver mais, priorize os 3 mais críticos.
 
-Exemplo de algo que PRECISA:
-> "O cálculo de frete deve incluir taxa de risco?" — Impacta preço final.
-> Não tem default obvious sem conhecer o negócio.
-
-**Validation checkpoint:** Máximo 3 NEEDS CLARIFICATION. Se você marcou mais,
-priorize os 3 mais críticos e tome decisões para o resto.
-
-### Step 4 — Escrever User Stories
+### Step 5 — Escrever User Stories
 
 Formato:
 
@@ -71,29 +82,58 @@ Cada user story deve ter:
 - 1 fluxo principal (happy path)
 - Pelo menos 1 fluxo alternativo ou de erro
 
-**Validation checkpoint:** Toda user story tem pelo menos 2 acceptance criteria
-(1 happy + 1 erro/alternativo).
+**Validation checkpoint:** Toda user story tem pelo menos 2 acceptance criteria (1 happy + 1 erro/alternativo).
 
-### Step 5 — Escrever Functional Requirements
-
-Formato:
+### Step 6 — Escrever Functional Requirements
 
 ```markdown
 ## Functional Requirements
 
 ### RF-01: [Título]
-- **Descrição:** [o que o sistema deve fazer]
+- **Description:** [o que o sistema deve fazer]
 - **Input:** [o que entra]
 - **Output:** [o que sai]
-- **Prioridade:** Must | Should | Could
+- **Priority:** Must | Should | Could
+- **Cross-refs:** [GLOSSARY.md#termo], [US-01]
 ```
 
 Mantenha cada RF atômica e testável.
 
-**Validation checkpoint:** Cada RF-* tem input e output definidos. Se um RF não
-tem output observável, não é um requisito funcional.
+**Validation checkpoint:** Cada RF tem input e output definidos. Se um RF não tem output observável, não é um requisito funcional.
 
-### Step 6 — Definir Critérios de Sucesso
+### Step 7 — Escrever Non-Functional Requirements
+
+```markdown
+## Non-Functional Requirements
+
+### RNF-01: [Título]
+- **Description:** [o que o sistema deve garantir]
+- **Metric:** [valor mensurável]
+- **Priority:** Must | Should | Could
+```
+
+Se um RNF não tem métrica mensurável, documente a justificativa:
+
+> **RNF-02: Segurança** — Metric: (não definida) — Justificativa: sistema single-user em rede local, sem dados sensíveis. Será revisado se houver mudança de contexto.
+
+**Validation checkpoint:** Toda RNF tem métrica ou justificativa documentada.
+
+### Step 8 — Escrever Business Rules
+
+```markdown
+## Business Rules
+
+### RN-01: [Título]
+- **Description:** [regra de negócio]
+- **Related RF:** RF-XX
+- **Rationale:** [por que essa regra existe]
+```
+
+Toda RN deve estar vinculada a pelo menos um RF.
+
+**Validation checkpoint:** Toda RN tem RF vinculado.
+
+### Step 9 — Definir Critérios de Sucesso
 
 ```markdown
 ## Success Criteria
@@ -107,34 +147,77 @@ Critérios devem ser:
 - **Tecnologia-agnósticos**: "usuário completa ação em <2min", não "API responde em <200ms"
 - **Verificáveis**: pode ser testado por alguém sem acesso ao código
 
-### Step 7 — Escrever a Spec
+### Step 10 — Escrever Fora de Escopo
 
-Preencha o template com o conteúdo dos passos 2-6.
-Se houver [NEEDS CLARIFICATION], pergunte ao usuário **antes** de finalizar.
+```markdown
+## Out of Scope
 
-**Regra de perguntas:** Faça 1 pergunta por vez. Se houver 3 markers, são
-no máximo 3 interações.
+- [O que explicitamente NÃO faz parte desta feature]
+- [O que será feito em outra feature]
+```
 
-### Step 8 — Atualizar Glossário
+### Step 11 — Resolver Pontos Ambíguos
 
-Se a feature introduziu termos novos que não estão em `GLOSSARY.md`,
-adicione-os agora.
+Se houver pontos ambíguos identificados no Step 4, pergunte ao usuário **antes** de finalizar. Uma pergunta por vez.
+
+### Step 12 — Atualizar Glossário
+
+Se a feature introduziu termos novos que não estão em `GLOSSARY.md`, adicione-os agora.
+
+## Template Completo da Spec
+
+```markdown
+---
+type: spec
+feature: <feature-name>
+concerns: [auth, performance, lgpd, cache]
+---
+
+# Spec — [Feature Name]
+
+## Description
+[1-3 parágrafos descrevendo o objetivo da feature]
+
+## User Stories
+...
+
+## Functional Requirements
+...
+
+## Non-Functional Requirements
+...
+
+## Business Rules
+...
+
+## Success Criteria
+...
+
+## Out of Scope
+...
+
+## Glossary Terms
+- [Termo 1]: ver [GLOSSARY.md#termo-1]
+```
 
 ## MUST DO
 
-- Manter spec.md enxuto — foco no O QUE, não no COMO
+- Manter spec.md focado no O QUE, não no COMO
 - Cada RF deve ter input e output definidos
 - Cada US deve ter happy path + pelo menos 1 alternativa/erro
-- Máximo 3 NEEDS CLARIFICATION por spec
+- Toda RNF tem métrica ou justificativa
+- Toda RN vinculada a um RF
+- Máximo 3 pontos ambíguos para perguntar ao usuário
 - Atualizar GLOSSARY.md com termos novos
+- Adicionar frontmatter com concerns identificados em Step 2
 
 ## MUST NOT DO
 
 - Incluir detalhes de implementação (frameworks, bibliotecas, APIs específicas)
 - Escrever acceptance criteria vagos ("funciona corretamente", "é rápido")
-- Deixar NEEDS CLARIFICATION sem resolver (pergunte ao usuário)
+- Deixar pontos ambíguos sem resolver — pergunte ao usuário
 - Criar RFs que não podem ser testados
-- Documentar comportamentos que não estão no escopo da feature
+- Pular RNFs — "não temos requisitos não-funcionais" é um requisito não-funcional em si
 
 ## Good vs Bad Examples
 
@@ -143,32 +226,52 @@ adicione-os agora.
 RF-03: Calcular frete
 - Input: CEP origem, CEP destino, peso (kg), dimensões (cm)
 - Output: valor (R$), prazo (dias úteis), transportadora
-- Prioridade: Must
+- Priority: Must
 ```
 
 **Mau RF:**
 ```
 RF-03: Calcular frete
-- O sistema calcula o frete. (Não diz: input? output? o que é "frete"?)
+- O sistema calcula o frete.
+  (Não diz: input? output? o que é "frete"?)
+```
+
+**Bom RNF:**
+```
+RNF-01: Performance
+- Metric: Resposta em <500ms para P95, medido sob carga de 50 requisições simultâneas.
+- Priority: Must
+```
+
+**Mau RNF:**
+```
+RNF-01: Performance
+- O sistema deve ser rápido.
+  (O que é "rápido"?)
 ```
 
 **Bom acceptance criterion:**
 ```
-Given um CEP válido de origem e destino, when a loja consulta frete,
+Given um CEP válido de origem e destino,
+when a loja consulta frete,
 then o sistema retorna valor e prazo em <2 segundos.
 ```
 
 **Mau acceptance criterion:**
 ```
-Given um CEP, when consulta, then funciona. (O que é "funciona"?)
+Given um CEP, when consulta, then funciona.
+  (O que é "funciona"?)
 ```
 
 ## Completion Criteria
 
 - [ ] spec.md escrito seguindo o template
-- [ ] No máximo 3 NEEDS CLARIFICATION (resolvidos ou perguntados)
+- [ ] Máximo 3 pontos ambíguos (resolvidos ou perguntados)
 - [ ] Toda RF tem input e output
+- [ ] Toda RNF tem métrica ou justificativa
+- [ ] Toda RN está vinculada a um RF
 - [ ] Toda US tem happy path + pelo menos 1 alternativa
 - [ ] Critérios de sucesso são mensuráveis
 - [ ] GLOSSARY.md atualizado com termos novos
+- [ ] Frontmatter preenchido com concerns identificados
 - [ ] Usuário revisou e aprovou a spec

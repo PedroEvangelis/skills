@@ -14,6 +14,7 @@ sem exigir uma "fase de arquitetura" separada.
 - `.specs/project/ARCHITECTURE.md` atualizado (novo ADR)
 - `.specs/project/CONVENTIONS.md` atualizado (novo padrão)
 - `.specs/project/GLOSSARY.md` atualizado (novo termo)
+- `.specs/project/BIG_PICTURE.md` atualizado (decision log, open questions)
 
 ## Input
 
@@ -137,3 +138,4 @@ Vamos usar Redis porque é popular.
 - [ ] CONVENTIONS.md atualizado APENAS com padrões implementados em 2+ features
 - [ ] GLOSSARY.md atualizado com novos termos
 - [ ] Toda atualização tem link para a feature de origem
+- [ ] BIG_PICTURE.md atualizado (decision log, open questions)

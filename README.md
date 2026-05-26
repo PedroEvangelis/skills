@@ -5,7 +5,7 @@ Available for the community to use and contribute.
 
 | Skill | Description |
 |-------|-------------|
-| [spec-driven-analyst](skills/spec-driven-analyst/SKILL.md) | Progressive specification and living documentation — organized by feature, auto-generated behaviors, greenfield/brownfield/quick modes. |
+| [spec-driven-analyst](skills/spec-driven-analyst/SKILL.md) | Progressive specification and living documentation. Three depth-variable modes: DISCOVER (design thinking), BUILD (efficient delivery), FIX (quick bug fixes). Dual behaviors (proactive + reactive), conversational checkpoints with completeness gates, cross-referenced document graph, BIG_PICTURE.md systemic vision. |
 
 ## Installation
 
