@@ -35,6 +35,7 @@ Gates verificam **conteúdo**, não tamanho. Um VISION.md de 200 linhas para um 
 - [ ] Fora de escopo da feature definido
 - [ ] Cross-references para GLOSSARY.md quando usa termos do domínio
 - [ ] Frontmatter preenchido com concerns da feature
+- [ ] Nenhum termo de tecnologia específica (framework, banco, cache, proxy, biblioteca) na spec — requisitos descritos em termos abstratos
 
 ## Gate CP3 — Conceptual Design (design.md) — Opcional
 
@@ -46,6 +47,7 @@ Só aplicável se design.md foi criado:
 - [ ] Contratos de API com exemplos de request/response (se aplicável)
 - [ ] State machines para entidades com ciclo de vida (se aplicável)
 - [ ] Cross-references para CONVENTIONS.md e ARCHITECTURE.md
+- [ ] Decisões de tecnologia (se houver) têm rationale: alternativa(s) considerada(s), contexto da escolha, trade-offs identificados
 
 ## Gate CP4 — Proactive Behavioral Analysis (behaviors.md - seção proativa)
 

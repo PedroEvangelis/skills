@@ -130,6 +130,7 @@ Se a feature começar como simples e crescer durante a implementação, adicione
 - Assumir que "já sabemos o que fazer" sem verificar o glossário
 - Criar design.md para features simples
 - Ignorar comportamentos descobertos durante implementação
+- Assumir que BUILD mode é "spec rápida" — tecnologia ainda pertence ao design.md, não à spec.md
 
 ## Good vs Bad Examples
 

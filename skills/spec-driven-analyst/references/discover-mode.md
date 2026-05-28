@@ -60,6 +60,7 @@ Explore o problema antes de qualquer menção a solução.
 - Prefira múltipla escolha quando possível
 - Escute workarounds e ineficiências — eles revelam requisitos não declarados
 - Desafie suposições: "Você disse X — o que acontece se X não for verdade?"
+- **Tecnologia na descoberta:** se o usuário mencionar tecnologia durante CP0 (ex: "quero usar Redis"), não pergunte sobre ela agora. Anote mentalmente e redirecione: "Entendi. Vamos primeiro entender bem o problema. A tecnologia a gente decide na fase de design, ok?"
 
 **Exemplo de diálogo:**
 ```
@@ -146,6 +147,7 @@ Derive os requisitos funcionais, não-funcionais e regras de negócio.
 - Toda RNF tem métrica mensurável. Se não tem métrica, documente por quê
 - Toda RN está vinculada a pelo menos um RF
 - Use BDD/Gherkin para acceptance criteria: Given/When/Then
+- **Re-enquadre tecnologia:** se o usuário responder com tecnologia ("usar Redis para cache"), re-enquadre para o problema real: "Então você precisa de cache. Por quanto tempo os dados devem ficar armazenados?" A tecnologia vai para design.md.
 
 **Gate:**
 - Toda RF tem input, output e prioridade?

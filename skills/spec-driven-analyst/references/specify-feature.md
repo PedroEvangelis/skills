@@ -24,12 +24,12 @@ Leia `assets/spec-template.md` como base.
 
 ### Step 2 — Identificar Concerns
 
-Com base na descrição, identifique os concerns que esta feature toca. Concerns são dimensões transversais do sistema:
+Com base na descrição, identifique os concerns que esta feature toca. Concerns são dimensões transversais do sistema, por exemplo:
 
 - **auth**: autenticação, autorização, RBAC
 - **performance**: rate limiting, cache, otimizações
 - **lgpd**: dados pessoais, criptografia, retention
-- **cache**: Redis, CDN, caching layer
+- **cache**: caching layer
 - **compliance**: regulatório, auditoria, logs
 - **observabilidade**: métricas, tracing, alertas
 - **filas**: processamento assíncrono, job queues
@@ -39,6 +39,8 @@ Com base na descrição, identifique os concerns que esta feature toca. Concerns
 Nem toda feature tem concerns — features puramente técnicas (migração, refatoração) podem ter lista vazia.
 
 Se houver dúvida, pergunte: "Essa feature toca [concern]?" Uma pergunta por vez.
+
+**Roteamento de tecnologia:** se o usuário mencionar tecnologia específica durante a descrição (ex: "usar Redis para cache"), registre como decisão de design pendente — não inclua na spec. A tecnologia concreta vai para design.md.
 
 **Validation checkpoint:** concerns identificados antes de escrever a spec. O frontmatter será preenchido com esta lista.
 
@@ -213,7 +215,7 @@ concerns: [auth, performance, lgpd, cache]
 
 ## MUST NOT DO
 
-- Incluir detalhes de implementação (frameworks, bibliotecas, APIs específicas)
+- Incluir tecnologia específica (Redis, Nginx, Laravel, bcrypt) na spec — use termos abstratos (cache, proxy, hash). A tecnologia concreta pertence ao design.md.
 - Escrever acceptance criteria vagos ("funciona corretamente", "é rápido")
 - Deixar pontos ambíguos sem resolver — pergunte ao usuário
 - Criar RFs que não podem ser testados
@@ -229,11 +231,13 @@ RF-03: Calcular frete
 - Priority: Must
 ```
 
-**Mau RF:**
+**Mau RF (contaminado):**
 ```
 RF-03: Calcular frete
-- O sistema calcula o frete.
-  (Não diz: input? output? o que é "frete"?)
+- Input: CEP origem, CEP destino, peso (kg)
+- Output: valor calculado via API dos Correios
+  (Tecnologia específica (Correios) na spec. Se trocar de transportadora,
+  a spec precisa ser alterada. O correto é "valor (R$), prazo (dias)")
 ```
 
 **Bom RNF:**

@@ -47,6 +47,21 @@ Liste as decisões que precisam ser tomadas:
 Para cada decisão, apresente 2-3 opções com prós e contras. Deixe o usuário
 escolher ou tome a decisão com justificativa.
 
+**Tecnologia mencionada pelo usuário:** Se durante a descoberta (CP0-CP2) o usuário
+mencionou tecnologia específica, revise-a agora. Pergunte (máximo 2):
+
+- "Você tem experiência com [tecnologia] ou está avaliando?" (familiaridade)
+- "Que alternativas considerou?" (trade-offs)
+- "Há restrições de ambiente? (memória, SO, linguagem)" (limitações)
+
+**Como documentar:**
+
+| Contexto | Exemplo de documentação |
+|----------|------------------------|
+| Escolha por familiaridade | "Redis para cache — escolha por familiaridade da equipe. Alternativas: Dragonfly, Memcached. Decisão: Redis. Risco: baixo — tecnologia madura e bem suportada." |
+| Escolha com trade-off real | "Dragonfly vs Redis — Dragonfly tem 2x throughput em benchmarks. Decisão: Redis. Motivo: Dragonfly exige migração de infra e conhecimento especializado. Trade-off: throughput menor em troca de operação previsível." |
+| Tecnologia indispensável | "Typst para renderização de PDF — única alternativa viável que atende aos requisitos de tagging semântico e layout avançado. Alternativas consideradas: Adobe (proprietário, caro), LaTeX (curva de aprendizado alta). Decisão: Typst — melhor custo-benefício." |
+
 **Validation checkpoint:** Toda decisão tem pelo menos 2 opções consideradas.
 Se só há uma opção viável, documente por que as outras foram descartadas.
 
@@ -129,6 +144,7 @@ Use esta estrutura:
 
 - Só criar design.md se a feature realmente precisar
 - Para cada decisão, documentar opções consideradas e trade-offs
+- Decisões de tecnologia com rationale: contexto, alternativas, trade-offs, decisão (ver tabela em Step 2)
 - Diagramas só se adicionarem clareza além do texto
 - Contratos de API com exemplos reais (request + response)
 - Cross-referenciar CONVENTIONS.md e ARCHITECTURE.md
@@ -137,9 +153,10 @@ Use esta estrutura:
 
 - Criar design.md para features simples (spec.md + implementação é suficiente)
 - Incluir diagramas que ninguém vai consultar
-- Documentar decisões óbvias ("escolhemos JavaScript porque é a linguagem do projeto")
-- Deixar decisões sem justificativa
+- Deixar decisões sem justificativa — nem as "óbvias"
 - Duplicar informação que já está em CONVENTIONS.md ou ARCHITECTURE.md
+- Aceitar tecnologia como "a escolha óbvia" sem ao menos documentar por que é óbvia (ex: "Redis — padrão da indústria para cache, familiaridade da equipe")
+- Incluir tecnologia na spec.md em vez do design.md
 
 ## Good vs Bad Examples
 

@@ -8,6 +8,11 @@ concerns: [auth, performance, lgpd, cache]
 
 ## Description
 
+> ⚠️ **spec.md descreve o que o sistema faz em termos de domínio.**
+> Tecnologia específica (Redis, Nginx, bcrypt) não pertence aqui.
+> Use termos abstratos: cache, proxy, hash, fila.
+> A tecnologia concreta vai para design.md.
+
 [1-3 parágrafos descrevendo o objetivo da feature]
 
 ## User Stories

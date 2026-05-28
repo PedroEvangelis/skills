@@ -65,6 +65,7 @@ Você opera em três modos. A escolha é determinada pelo contexto — não por 
 - **Projeto contínuo**: O ciclo DISCOVER → BUILD → FIX se repete por feature, indefinidamente.
 - **Auto-sizing por complexidade**: Feature simples não gera design.md. Feature complexa ativa DISCOVER mode.
 - **Stack-agnostic**: Durante DISCOVER, foque no "o quê" e "por quê", nunca no "como implementar em framework X".
+- **Abstração progressiva**: spec.md descreve o domínio em termos abstratos e intercambiáveis (cache, fila, proxy, hash). A tecnologia concreta (Redis, Nginx, bcrypt) pertence ao design.md ou ao formato híbrido do GLOBAL_BEHAVIORS.md. Se o usuário mencionar tecnologia durante a descoberta, registre como decisão de design — não como requisito de spec.
 
 ## Os Três Modos
 
@@ -150,7 +151,10 @@ O agente pergunta (uma por vez):
 - "Existem regras de negócio? (limites, aprovações, cálculos)"
 - "E se algo der errado? O que deve acontecer?"
 
-**Gate:** Toda RF tem input + output + prioridade. Toda RNF tem métrica (ou justificativa). Toda RN está vinculada a uma RF.
+**Regra de roteamento de tecnologia:**
+Se o usuário mencionar tecnologia específica (ex: "usar Redis para cache"), NÃO inclua na spec.md. Registre como decisão de design pendente e pergunte (máximo 1): "Você mencionou [tecnologia]. Ela é para resolver qual necessidade? Vou registrar para a fase de design."
+
+**Gate:** Toda RF tem input + output + prioridade. Toda RNF tem métrica (ou justificativa). Toda RN está vinculada a uma RF. Nenhum termo de tecnologia específica na spec — requisitos descritos em termos abstratos.
 
 **Produz:** `spec.md` — user stories, RFs, RNFs, RNs, critérios de sucesso, fora de escopo.
 
@@ -161,7 +165,17 @@ Como as peças se comportam ao longo do tempo.
 - Só execute se: a feature tem entidades com ciclo de vida, fluxos complexos, ou decisões arquiteturais.
 - State machines, diagramas de sequência (Mermaid), ADRs.
 
-**Gate:** Toda entidade com ciclo de vida tem estados mapeados. Decisões documentadas com alternativas.
+**Gate:** Toda entidade com ciclo de vida tem estados mapeados. Decisões documentadas com alternativas. Decisões de tecnologia (se houver) têm rationale: alternativa(s) considerada(s), contexto da escolha, trade-offs identificados.
+
+**Regra de tecnologia no design:**
+Se o usuário mencionou tecnologia durante CP0-CP2, revise-a agora no design.md. Pergunte (máximo 2):
+- "Você tem experiência com [tecnologia] ou está avaliando?" (familiaridade)
+- "Que alternativas considerou?" (trade-offs)
+- "Há restrições de ambiente? (memória, SO, linguagem)" (limitações)
+
+Se a resposta for "familiaridade" (ex: "sempre usei Redis"), documente: "Redis — escolha por familiaridade da equipe. Alternativas: [X, Y]. Decisão: Redis. Risco: baixo — tecnologia madura."
+
+Se a resposta revelar trade-offs reais, documente as opções com prós/contras.
 
 **Produz:** `design.md` — diagramas Mermaid, decisões, contratos de API.
 
@@ -366,6 +380,14 @@ Se estiver em dúvida, comece com spec.md e pergunte: "Esta feature parece [simp
 
 **Regra:** Extraia por padrão de referência, não por tamanho (ver extraction-rules.md).
 
+### 8. Contaminação de Tecnologia na Spec
+
+**Sintoma:** spec.md menciona "Redis", "bcrypt", "Laravel", "Nginx" como se fossem regras de negócio.
+
+**Problema:** A spec vira um documento híbrido que nem o analista de negócio entende nem o desenvolvedor confia. Tecnologias são intercambiáveis — a regra de negócio "cache com TTL de 5 min" não muda se o cache for Redis, Dragonfly ou Memcached. Quando a tecnologia muda, a spec precisa ser reescrita.
+
+**Regra:** spec.md é puramente abstrato. Se o usuário citar tecnologia durante a descoberta, registre como decisão de design (CP3) com perguntas sobre familiaridade, adequação e alternativas. A tecnologia concreta pertence ao design.md; a spec.md pertence ao domínio.
+
 ## Constraints
 
 ### MUST DO
@@ -392,6 +414,7 @@ Se estiver em dúvida, comece com spec.md e pergunte: "Esta feature parece [simp
 - Particionar arquivos por tamanho — use extraction-rules.md
 - Criar documentos que duplicam informação já existente em outro lugar
 - Fazer múltiplas perguntas na mesma mensagem
+- Incluir nomes de tecnologia específica (framework, cache, proxy, banco, biblioteca) em spec.md — use termos abstratos (cache, fila, proxy, hash). A tecnologia concreta pertence ao design.md.
 
 ## Self-Review Gate
 
@@ -411,6 +434,8 @@ Antes de declarar uma tarefa completa:
 - [ ] Cross-references estão atualizados?
 - [ ] Alguma seção é referenciada por 3+ nós e merece extração?
 - [ ] Frontmatter de spec.md, behaviors.md e design.md estão atualizados com concerns?
+- [ ] Nenhuma tecnologia específica (Redis, Laravel, bcrypt, Nginx, Scribe, etc.) está em spec.md? Tecnologia em GLOBAL_BEHAVIORS.md está no formato híbrido (abstração + tech em parênteses)?
+- [ ] Decisões de tecnologia em design.md têm rationale documentado (alternativas, contexto, trade-offs)?
 
 ## Referências
 
